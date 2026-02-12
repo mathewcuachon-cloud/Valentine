@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Valentine's Day Special ❤️</title>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to bottom, #ff9a9e, #fad0c4);
+      text-align: center;
+      overflow-x: hidden;
+    }
+
+    section {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    h1, h2, p {
+      color: white;
+    }
+
+    button {
+      margin-top: 15px;
+      padding: 12px 25px;
+      font-size: 1rem;
+      border: none;
+      border-radius: 25px;
+      background: white;
+      color: #ff4b5c;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background: #ff4b5c;
+      color: white;
+    }
+
+    .heart {
+      position: fixed;
+      color: white;
+      font-size: 20px;
+      animation: floatUp 5s linear infinite;
+    }
+
+    @keyframes floatUp {
+      from { transform: translateY(100vh); opacity: 1; }
+      to { transform: translateY(-10vh); opacity: 0; }
+    }
+
+    /* Mini Game */
+    #gameArea {
+      position: relative;
+      width: 300px;
+      height: 400px;
+      background: rgba(255,255,255,0.2);
+      border-radius: 15px;
+      overflow: hidden;
+    }
+
+    .fallingHeart {
+      position: absolute;
+      font-size: 24px;
+      cursor: pointer;
+    }
+
+    /* Proposal */
+    #noBtn {
+      position: relative;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- SECTION 1: Greeting -->
+  <section>
+    <h1>Happy Valentine's Day ❤️
+    <p><strong>From: YOUR_NAME</strong></p>
+    <p><strong>To: CRUSH_NAME</strong></p></h1>
+    <p>You make my heart smile every day.</p>
+    <button onclick="scrollToSection('letter')">Read My Letter 💌</button>
+  </section>
+
+  <!-- SECTION 2: Love Letter -->
+  <section id="letter">
+    <h2>My Love Letter 💖</h2>
+    <p id="typeText"></p>
+    <button onclick="scrollToSection('game')">Play a Mini Game 🎮</button>
+  </section>
+
+  <!-- SECTION 3: Mini Game -->
+  <section id="game">
+    <h2>Catch the Hearts Game 💕</h2>
+    <p>Score: <span id="score">0</span></p>
+    <div id="gameArea"></div>
+    <button onclick="scrollToSection('proposal')">Final Surprise 🌹</button>
+  </section>
+
+  <!-- SECTION 4: Proposal -->
+  <section id="proposal">
+    <h2>Will You Be My Valentine? 💍</h2>
+    <button onclick="yesClicked()">YES 💖</button>
+    <button id="noBtn" onmouseover="moveNo()">NO 😢</button>
+  </section> 
+
+  <script>
+    // Floating hearts background
+    function createHeart() {
+      const heart = document.createElement('div');
+      heart.classList.add('heart');
+      heart.innerHTML = '💖';
+      heart.style.left = Math.random() * 100 + 'vw';
+      heart.style.animationDuration = (Math.random() * 2 + 3) + 's';
+      document.body.appendChild(heart);
+      setTimeout(() => heart.remove(), 5000);
+    }
+    setInterval(createHeart, 300);
+
+    // Smooth scroll
+    function scrollToSection(id) {
+      document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // Typing love letter
+    const message = "From the moment I met you, my world became brighter. Thank you for being my happiness, my smile, and my heart. I love you more every single day. 💖";
+    let i = 0;
+
+    function typeWriter() {
+      if (i < message.length) {
+        document.getElementById('typeText').innerHTML += message.charAt(i);
+        i++;
+        setTimeout(typeWriter, 40);
+      }
+    }
+
+    window.onload = typeWriter;
+
+    // Mini game logic
+    let score = 0;
+    const gameArea = document.getElementById('gameArea');
+
+    function spawnHeart() {
+      const heart = document.createElement('div');
+      heart.classList.add('fallingHeart');
+      heart.innerHTML = '❤️';
+      heart.style.left = Math.random() * 260 + 'px';
+      heart.style.top = '0px';
+
+      heart.onclick = () => {
+        score++;
+        document.getElementById('score').textContent = score;
+        heart.remove();
+      };
+
+      gameArea.appendChild(heart);
+
+      let fall = setInterval(() => {
+        heart.style.top = heart.offsetTop + 5 + 'px';
+        if (heart.offsetTop > 380) {
+          clearInterval(fall);
+          heart.remove();
+        }
+      }, 30);
+    }
+
+    setInterval(spawnHeart, 800);
+
+    // Proposal buttons
+    function moveNo() {
+      const btn = document.getElementById('noBtn');
+      btn.style.position = 'absolute';
+      btn.style.left = Math.random() * 80 + 'vw';
+      btn.style.top = Math.random() * 80 + 'vh';
+    }
+
+    function yesClicked() {
+      alert('YAY!!! 💖 Happy Valentine\'s Day! 💕');
+    }
+  </script>
+
+  <audio autoplay loop>
+    <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_4b7d0f5c3b.mp3?filename=romantic-background-112191.mp3" type="audio/mpeg">
+  </audio>
+
+  <!-- Animated Envelope Opening -->
+  <section id="envelopeSection">
+    <h2>Open Your Love Letter 💌</h2>
+    <div id="envelope" onclick="openEnvelope()" style="width:200px;height:120px;background:#ffffff;border-radius:10px;position:relative;cursor:pointer;box-shadow:0 4px 10px rgba(0,0,0,0.2);">
+      <div id="flap" style="width:0;height:0;border-left:100px solid transparent;border-right:100px solid transparent;border-bottom:60px:-60px;left:0;transition:transform 0.6s;"></div>
+      <p style="position:absolute;width:100%;top:30px;color:#ff4b5c;font-weight:bold;">Tap me ❤️ </p>
+    </div>
+    <p id="hiddenLetter" style="display:none;color:white;margin-top:20px;max-width:400px;">
+      You are the most beautiful part of my life. Happy Valentine's Day! 💖
+    </p>
+  </section>
+
+  <script>
+    function openEnvelope() {
+      document.getElementById('flap').style.transform = 'rotateX(180deg)';
+      document.getElementById('hiddenLetter').style.display = 'block';
+    }
+  </script>
+
+  <!-- Download Love Letter PDF -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script>
+    function downloadPDF() {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+      doc.text("Happy Valentine's Day 💖", 20, 20);
+      doc.text("From: YOUR_NAME", 20, 40);
+      doc.text("To: CRUSH_NAME", 20, 50);
+      doc.text("From the moment I met you, my world became brighter. I love you more every day.", 20, 70, { maxWidth: 170 });
+      doc.save("Love_Letter.pdf");
+    }
+  </script>
+
+  <div style="position:fixed;bottom:20px;width:100%;text-align:center;">
+    <button onclick="downloadPDF()">Download Love Letter PDF 💌</button>
+  </div>
+
+  <!-- Extra Romantic Background Effects -->
+  <style>
+    body {
+      background: radial-gradient(circle at top, #ff758c, #ff7eb3, #fad0c4);
+    }
+
+    .sparkle {
+      position: fixed;
+      color: rgb(185, 9, 9);
+      font-size: 12px;
+      animation: sparkleFloat 4s linear infinite;
+      opacity: 0.8;
+    }
+
+    @keyframes sparkleFloat {
+      from { transform: translateY(100vh) scale(0.5); opacity: 1; }
+      to { transform: translateY(-10vh) scale(1.2); opacity: 0; }
+    }
+  </style>
+
+  <script>
+    // Heart particles from envelope
+    function createSparkle() {
+      const s = document.createElement('div');
+      s.classList.add('sparkle');
+      s.innerHTML = '✨';
+      s.style.left = Math.random() * 100 + 'vw';
+      s.style.animationDuration = (Math.random() * 2 + 2) + 's';
+      document.body.appendChild(s);
+      setTimeout(() => s.remove(), 4000);
+    }
+    setInterval(createSparkle, 400);
+
+    // Romantic voice message
+    function playVoice() {
+      const audio = new Audio('https://cdn.pixabay.com/download/audio/2022/03/10/audio_c8c8a73467.mp3?filename=romantic-piano-110623.mp3');
+      audio.play();
+    }
+
+    // Show photo inside envelope when opened
+    function openEnvelope() {
+      document.getElementById('flap').style.transform = 'rotateX(180deg)';
+      document.getElementById('hiddenLetter').style.display = 'block';
+
+      if (!document.getElementById('lovePhoto')) {
+        const img = document.createElement('img');
+        img.id = 'lovePhoto';
+        img.src = 'iloveyou.jpg.gif';
+        img.style.width = '150px';
+        img.style.borderRadius = '15px';
+        img.style.marginTop = '15px';
+        document.getElementById('envelopeSection').appendChild(img);
+      }
+
+      playVoice();
+    }
+  </script>
+
+  <!-- Mobile App Style + Share Link + Secret Password Message -->
+  <style>
+    .app-card {
+      position: fixed;
+      top: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(255,255,255,0.15);
+      backdrop-filter: blur(10px);
+      padding: 10px 20px;
+      border-radius: 20px;
+      color: rgb(194, 94, 94);
+      font-size: 14px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    }
+
+    #secretBox {
+      margin-top: 20px;
+      display: none;
+      color: rgb(168, 83, 83);
+      max-width: 400px;
+    }
+
+    input[type="password"] {
+      padding: 8px;
+      border-radius: 10px;
+      border: none;
+      margin-top: 10px;
+      text-align: center;
+    }
+  </style>
+
+  <div class="app-card">💖 Valentine Surprise App</div>
+
+  <section>
+    <h2>Unlock Secret Message 🔐</h2>
+    <input type="password" id="secretInput" placeholder="Enter secret word" />
+    <br/>
+    <button onclick="unlockSecret()">Unlock 💌</button>
+
+    <div id="secretBox">
+      <h3>Secret Love Message 💖</h3>
+      <p>No matter what happens, I will always care about you. You are my sweetest happiness. Happy Valentine's Day! 🌹</p>
+    </div>
+
+    <button onclick="copyLink()">Copy Shareable Link 🌐</button>
+  </section>
+
+  <script>
+    function unlockSecret() {
+      const pass = document.getElementById('secretInput').value.toLowerCase();
+      if (pass === 'love') {
+        document.getElementById('secretBox').style.display = 'block';
+      } else {
+        alert('Wrong secret word 💔');
+      }
+    }
+
+    function copyLink() {
+      navigator.clipboard.writeText(window.location.href);
+      alert('Link copied! Send it to your Valentine 💕');
+    }
+  </script>
+
+</body>
+</html>
